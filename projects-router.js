@@ -43,6 +43,26 @@ router.get('/:id', (req, res) => {
     });
 });
 
+router.get('/:id/actions', (req, res) => {
+    Projects.getProjectActions(req.params.id)
+    .then(projActions => {
+        if(projActions){
+            res.status(200).json({
+                data: projActions
+            });
+        } else {
+            res.status(404).json({
+                message: "Project with that ID does not exist."
+            })
+        }
+    })
+    .catch(error => {
+        res.status(500).json({
+            error: "Error retrieving project actions."
+        });
+    });
+});
+
 router.post('/', (req, res) => {
     Projects.insert(req.body)
     .then(proj => {
